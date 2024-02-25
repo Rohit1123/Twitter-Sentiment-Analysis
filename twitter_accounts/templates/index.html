@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <title>Twitter Sentiment Analysis</title>
+    
+</head>
+
+<body>
+    <nav style="background-color: #0052a3;" class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" style="padding-left: 10px;" href="#">Twitter Sentiment Analysis</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link" href="#">Doccumention</a>
+                </li> -->
+            </ul>
+
+        </div>
+    </nav>
+
+    <br><br><br>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+
+                <form method="post">{% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Enter Hashtag</label>
+                        <input type = "text" name = "hashtag">
+                    </div>
+                    <br>
+                    <button type="submit" name="submit" style="padding-top: 5px;"
+                        class="btn btn-sm btn-info">Submit</button>
+                </form>
+                <br>
+
+
+            </div>
+            <!-- <div class="col-sm">
+
+                <div class="card" style="width: 18rem; border-color: blue;">
+                    <img class="card-img-top"
+                        src="https://th.bing.com/th/id/OIP.qu05yyEpYdSv4Tfi82G5UQHaFL?pid=ImgDet&w=569&h=398&rs=1"
+                        alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Product Name</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's content.</p>
+
+                    </div>
+                </div>
+            </div> -->
+            <div class="col-sm">
+
+                <form>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Hashtag Sentiment Score</label>
+                        <h1>{{selected_hash_tag.score_compound}}</h1>
+                        <label for="exampleFormControlInput1">Product Sentiment Output</label>
+                        {% if selected_hash_tag.score_compound > 0 %}
+                        <h1> Positive </h1>
+                        <i class="bi bi-emoji-smile-fill"></i>
+                        {% elif selected_hash_tag.score_compound < 0 %} <h1> Negative </h1>
+                            <i class="bi bi-emoji-frown-fill"></i>
+                            {% else %}
+                            <h1> Neutral </h1>
+                            <i class="bi bi-emoji-neutral"></i>
+                            {% endif %}
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+        <br>
+        <table class="table">
+            <caption>List of Tweets</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Tweet</th>
+                    <th scope="col">Negative</th>
+                    <th scope="col">Neutral</th>
+                    <th scope="col">Positive</th>
+                    <th scope="col">Compound</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tweet in tweets %}
+                <tr>
+                    <td>{{tweet.twitter_account}}</td>
+                    <td>{{tweet.date}}</td>
+                    <td style="width: 40%;">{{tweet.tweet}}</td>
+                    <td>{{tweet.score_neg}}</td>
+                    <td>{{tweet.score_neu}}</td>
+                    <td>{{tweet.score_pos}}</td>
+                    <td>{{tweet.score_compound}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <footer class="bg-dark text-center text-white">
+        <!-- Grid container -->
+        <div class="container p-4 pb-0">
+            <!-- Section: Form -->
+            <section class="">
+                <form action="">
+                    <!--Grid row-->
+                    <div class="row d-flex justify-content-center">
+                        <!--Grid column-->
+                        <div class="col-auto">
+                            <p class="pt-2">
+                                <strong>About Tweet Sentiment Analysis</strong>
+                            <div class="form-outline form-white mb-4">
+                                <label class="form-label" for="form5Example29">Sentiment analysis is the automated
+                                    process of understanding the sentiment or opinion of a given text. You can use it to
+                                    automatically analyze product reviews and sort them by Positive, Neutral,
+                                    Negative.</label>
+                            </div>
+                            </p>
+                        </div>
+                    </div>
+                    <!--Grid row-->
+                </form>
+            </section>
+            <!-- Section: Form -->
+        </div>
+        <!-- Grid container -->
+
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2023 Copyright
+            <a class="text-white" href=""></a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+</body>
+
+</html>
